@@ -47,12 +47,25 @@ A robust translation management system built with Laravel that helps manage and 
     docker-compose exec app composer install
     docker-compose exec app php artisan key:generate
     docker-compose exec app php artisan migrate
+    docker-compose exec app php artisan migrate --env=testing
     docker-compose exec app php artisan db:seed
     ```
 
 5. **Access the application**
+
     - Web: http://localhost:8000
     - API Documentation: http://localhost:8000/api/documentation
+
+6. **Access the application(Optional)**
+
+If facing permission issue
+
+Hit command `pwd` and check your-project-path
+
+    ```bash
+    sudo chown -R www-data:www-data your-project-path/storage
+    sudo chown -R www-data:www-data your-project-path/bootstrap/cache
+    ```
 
 ### Option 2: Manual Setup
 

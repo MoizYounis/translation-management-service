@@ -58,14 +58,12 @@ A robust translation management system built with Laravel that helps manage and 
 
 6. **Access the application(Optional)**
 
-If facing permission issue
+    If facing permission issue
 
-Hit command `pwd` and check your-project-path
+    Hit command `pwd` and check your-project-path
 
-    ```bash
     sudo chown -R www-data:www-data your-project-path/storage
     sudo chown -R www-data:www-data your-project-path/bootstrap/cache
-    ```
 
 ### Option 2: Manual Setup
 

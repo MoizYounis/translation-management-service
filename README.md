@@ -56,7 +56,7 @@ A robust translation management system built with Laravel that helps manage and 
     - Web: http://localhost:8000
     - API Documentation: http://localhost:8000/api/documentation
 
-6. **Access the application(Optional)**
+6. **Access Denied(Optional)**
 
     If facing permission issue
 
@@ -154,6 +154,13 @@ php artisan test
 ```
 
 ## API Documentation
+
+Manual Serve:
+
+```bash
+# For manual serve
+php artisan serve
+```
 
 Access the Swagger API documentation at:
 

@@ -62,8 +62,10 @@ A robust translation management system built with Laravel that helps manage and 
 
     Hit command `pwd` and check your-project-path
 
+    ```
     sudo chown -R www-data:www-data your-project-path/storage
     sudo chown -R www-data:www-data your-project-path/bootstrap/cache
+    ```
 
 ### Option 2: Manual Setup
 

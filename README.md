@@ -56,7 +56,12 @@ A robust translation management system built with Laravel that helps manage and 
     - Web: http://localhost:8000
     - API Documentation: http://localhost:8000/api/documentation
 
-6. **Access Denied(Optional)**
+6. **Docker MySQL Credentials**
+
+    - username: root
+    - password: secret
+
+7. **Access Denied(Optional)**
 
     If you're facing a permission issue
 

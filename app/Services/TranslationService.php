@@ -104,17 +104,18 @@ class TranslationService extends BaseService implements TranslationContract
         $result = [];
 
         if (empty($locales)) {
-            $translations = $this->model->select('locale', 'key', 'value')->get();
-
-            foreach ($translations as $t) {
-                Redis::hset("translations_export_{$t->locale}", $t->key, $t->value);
-                Redis::sadd("translations_locales", $t->locale);
-                $result[$t->locale][$t->key] = $t->value;
-            }
+            $this->model->select('locale', 'key', 'value')
+                ->orderBy('locale')
+                ->chunk(1000, function ($translations) use (&$result) {
+                    foreach ($translations as $t) {
+                        Redis::hset("translations_export_{$t->locale}", $t->key, $t->value);
+                        Redis::sadd("translations_locales", $t->locale);
+                        $result[$t->locale][$t->key] = $t->value;
+                    }
+                });
 
             return $result;
         }
-
         foreach ($locales as $locale) {
             $result[$locale] = Redis::hgetall("translations_export_{$locale}");
         }

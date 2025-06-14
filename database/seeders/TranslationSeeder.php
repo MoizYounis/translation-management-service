@@ -19,13 +19,18 @@ class TranslationSeeder extends Seeder
         $count = 100000;
 
         for ($i = 0; $i < $count; $i++) {
-            $batch[] = [
+            $record = [
                 'locale' => fake()->randomElement(['en', 'fr', 'es', 'de']),
                 'key' => Str::slug(fake()->unique()->words(3, true), '_'),
                 'value' => fake()->sentence,
                 'tags' => json_encode([fake()->randomElement(['web', 'mobile', 'desktop'])]),
                 'cdn_ready' => fake()->boolean(20),
             ];
+
+            Redis::hset("translations_export_{$record['locale']}", $record['key'], $record['value']);
+            Redis::sadd("translations_locales", $record['locale']);
+
+            $batch[] = $record;
 
             if ($i % 1000 === 0) {
                 DB::table('translations')->insert($batch);

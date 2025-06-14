@@ -153,7 +153,7 @@ docker-compose exec app php artisan test
 php artisan test
 
 # Note:
-If the data does not appear after testing the APIs, simply run the seeders again to populate the data.
+If the data does not appear after testing in APIs, simply run the seeders again to populate the data.
 ```
 
 ## API Documentation

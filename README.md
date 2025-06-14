@@ -20,7 +20,7 @@ A robust translation management system built with Laravel that helps manage and 
 
 ## Installation
 
-### Option 1: Docker Setup (Recommended)
+### Option 1: Docker Setup
 
 1. **Clone the repository**
 

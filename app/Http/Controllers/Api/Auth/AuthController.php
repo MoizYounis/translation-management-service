@@ -10,6 +10,7 @@ use App\Exceptions\CustomException;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResponse;
 use App\Http\Requests\Api\LoginRequest;
+use Illuminate\Http\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -40,7 +41,7 @@ class AuthController extends Controller
      *     ),
      * )
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         try {
             $user = $this->auth->login($request->prepareRequest());
@@ -72,7 +73,7 @@ class AuthController extends Controller
      *     ),
      * )
      */
-    public function logout(Request $request)
+    public function logout(Request $request): JsonResponse
     {
         try {
             $user = $request->user();

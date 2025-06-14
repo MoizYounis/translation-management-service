@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Contracts\TranslationContract;
 use App\Exceptions\CustomException;
 use App\Http\Requests\Api\TranslationRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
 
 class TranslationController extends Controller
@@ -78,7 +79,7 @@ class TranslationController extends Controller
      *         description="Number of items per page",
      *         @OA\Schema(
      *             type="integer",
-     *             example=20
+     *             example=10
      *         )
      *     ),
      *     @OA\Response(
@@ -87,7 +88,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function index()
+    public function index(): JsonResponse
     {
         try {
             $request = request();
@@ -137,7 +138,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function store(TranslationRequest $request)
+    public function store(TranslationRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -147,6 +148,7 @@ class TranslationController extends Controller
 
                 return $this->sendJson(true, __('lang.messages.created_successfully', ['attribute' => __('lang.attributes.translation')]), $translation->only(['id', 'locale', 'key', 'value', 'tags', 'cdn_ready']), 201);
             }
+            return $this->sendJson(false, ResponseMessages::MESSAGE_500);
         } catch (CustomException $e) {
             DB::rollBack();
             return $this->sendJson(false, $e->getMessage());
@@ -182,7 +184,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function show(string $id)
+    public function show(string $id): JsonResponse
     {
         try {
             $translation_detail = $this->translationContract->show($id);
@@ -241,7 +243,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function update(TranslationRequest $request, string $id)
+    public function update(TranslationRequest $request, string $id): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -249,15 +251,16 @@ class TranslationController extends Controller
             if ($translation) {
                 DB::commit();
 
-                return $this->sendJson(true, __('lang.messages.updated_successfully', ['attribute' => __('lang.attributes.translation')]), $translation);
+                return $this->sendJson(true, __('lang.messages.updated_successfully', ['attribute' => __('lang.attributes.translation')]), $translation->only(['id', 'locale', 'key', 'value', 'tags', 'cdn_ready']));
             }
+            return $this->sendJson(false, ResponseMessages::MESSAGE_500);
         } catch (CustomException $e) {
             DB::rollBack();
 
             return $this->sendJson(false, $e->getMessage());
         } catch (\Throwable $th) {
             DB::rollBack();
-            logMessage("update/translation/{$id}", $request->prepareRequest(), $th->getMessage());
+            logMessage("update/translations/{$id}", $request->prepareRequest(), $th->getMessage());
 
             return $this->sendJson(false, ResponseMessages::MESSAGE_500);
         }
@@ -290,7 +293,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function destroy(string $id)
+    public function destroy(string $id): JsonResponse
     {
         try {
             DB::beginTransaction();
@@ -300,13 +303,14 @@ class TranslationController extends Controller
 
                 return $this->sendJson(true, __('lang.messages.deleted_successfully', ['attribute' => __('lang.attributes.translation')]));
             }
+            return $this->sendJson(false, ResponseMessages::MESSAGE_500);
         } catch (CustomException $e) {
             DB::rollBack();
 
             return $this->sendJson(false, $e->getMessage());
         } catch (\Throwable $th) {
             DB::rollBack();
-            logMessage("delete/translations/{$id}", [], $th->getMessage());
+            logMessage("delete/translations/{$id}", $id, $th->getMessage());
 
             return $this->sendJson(false, ResponseMessages::MESSAGE_500);
         }
@@ -325,7 +329,7 @@ class TranslationController extends Controller
      *     ),
      * )
      */
-    public function export()
+    public function export(): JsonResponse
     {
         try {
             $translations = $this->translationContract->export();

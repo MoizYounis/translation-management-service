@@ -8,7 +8,7 @@ class BaseService
 {
     protected $model;
 
-    public function getById($id, $keys = '*', $relations = null)
+    public function getById($id, $keys = '*', $relations = null): ?object
     {
         $query = $this->model->select($keys);
         if ($relations) {
@@ -17,15 +17,15 @@ class BaseService
         return $query->find($id);
     }
 
-    protected function recordExists($record)
+    protected function recordExists($record): void
     {
         if (empty($record)) {
             throw new CustomException(__('lang.messages.not_found_exception'));
         }
     }
 
-    public function delete($record)
+    public function delete($record): bool
     {
-        $record->delete();
+        return $record->delete();
     }
 }

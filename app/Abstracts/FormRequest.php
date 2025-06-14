@@ -9,17 +9,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 abstract class FormRequest extends LaravelFormRequest
 {
-    abstract public function rules();
+    abstract public function rules(): array;
 
-    abstract public function authorize();
+    abstract public function authorize(): bool;
 
-    public function validator($factory)
+    public function validator($factory): Validator
     {
 
         return $factory->make($this->formatRequest(), $this->container->call([$this, 'rules']), $this->messages());
     }
 
-    protected function formatRequest()
+    protected function formatRequest(): array
     {
         if (method_exists($this, 'formatter')) {
             return $this->container->call([$this, 'formatter']);
@@ -28,7 +28,7 @@ abstract class FormRequest extends LaravelFormRequest
         return $this->all();
     }
 
-    protected function failedValidation(Validator $validator)
+    protected function failedValidation(Validator $validator): void
     {
         $errors = $validator->errors()->first();
         throw new HttpResponseException(response()->json([

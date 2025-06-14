@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\JsonResponse;
+
 /**
  * @OA\Info(
  *      version="1.0.0",
@@ -12,7 +14,7 @@ namespace App\Http\Controllers;
 
 abstract class Controller
 {
-    public function sendJson($status, $message, $data = [], $status_code = 200)
+    public function sendJson($status, $message, $data = [], $status_code = 200): JsonResponse
     {
         return response()->json([
             'status' => $status,

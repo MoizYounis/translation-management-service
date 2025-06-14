@@ -15,7 +15,7 @@ class AuthService extends BaseService implements AuthContract
         $this->model = new User();
     }
 
-    public function login($data)
+    public function login($data): User
     {
         $user = $this->model->select(
             'id',
@@ -37,7 +37,7 @@ class AuthService extends BaseService implements AuthContract
         return $user;
     }
 
-    public function logout($user)
+    public function logout($user): bool
     {
         $user->tokens()->delete();
         return true;

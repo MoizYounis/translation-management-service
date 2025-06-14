@@ -4,9 +4,9 @@ namespace App\Services;
 
 use App\Models\Translation;
 use App\Abstracts\BaseService;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Redis;
 use App\Contracts\TranslationContract;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 class TranslationService extends BaseService implements TranslationContract
 {
@@ -15,7 +15,7 @@ class TranslationService extends BaseService implements TranslationContract
         $this->model = new Translation();
     }
 
-    public function index($perPage = 10, $data = [])
+    public function index($perPage = 10, $data = []): LengthAwarePaginator
     {
         $filters = [
             'locale' => $data['locale'] ?? null,
@@ -37,12 +37,12 @@ class TranslationService extends BaseService implements TranslationContract
             ->paginate($perPage);
     }
 
-    public function store($data)
+    public function store($data): Translation
     {
         return $this->prepareData($this->model, $data, true);
     }
 
-    private function prepareData($model, $data, $newRecord = false)
+    private function prepareData($model, $data, $newRecord = false): Translation
     {
         if (isset($data['locale']) && $data['locale']) {
             $model->locale = $data['locale'];
@@ -67,7 +67,7 @@ class TranslationService extends BaseService implements TranslationContract
         return $model;
     }
 
-    public function show($id)
+    public function show($id): Translation
     {
         $keys = [
             'id',
@@ -82,14 +82,14 @@ class TranslationService extends BaseService implements TranslationContract
         return $translation;
     }
 
-    public function update($id, $data)
+    public function update($id, $data): Translation
     {
         $translation = $this->getById($id);
         $this->recordExists($translation);
         return $this->prepareData($translation, $data);
     }
 
-    public function destroy($id)
+    public function destroy($id): bool
     {
         $translation = $this->getById($id);
         $this->recordExists($translation);
@@ -98,7 +98,7 @@ class TranslationService extends BaseService implements TranslationContract
         return true;
     }
 
-    public function export()
+    public function export(): array
     {
         $locales = Redis::smembers("translations_locales");
         $result = [];

@@ -176,6 +176,147 @@ Access the Swagger API documentation at:
 http://localhost:8000/api/documentation
 ```
 
+### 1. SOLID Principles Implementation
+
+#### Single Responsibility Principle (SRP)
+
+-   Each class has a specific, focused purpose
+-   `TranslationService` exclusively manages translations
+-   `AuthService` handles only authentication
+-   `FormRequest` classes are dedicated to validation
+
+#### Open/Closed Principle (OCP)
+
+-   `BaseService` abstract class allows extension without modification
+-   New features can be added without changing existing code
+-   Extension points are provided through interfaces
+-   System is open for extension but closed for modification
+
+#### Liskov Substitution Principle (LSP)
+
+-   `TranslationService` extends `BaseService`
+-   Child classes maintain parent class behavior
+-   Ensures type safety
+-   Enables polymorphic behavior
+
+#### Interface Segregation Principle (ISP)
+
+-   `TranslationContract` is divided into smaller interfaces
+-   `TranslationCrudContract` and `TranslationExportContract` for separate responsibilities
+-   Clients only use methods they need
+-   Prevents interface pollution
+
+#### Dependency Inversion Principle (DIP)
+
+-   High-level modules (controllers) depend on abstractions (interfaces)
+-   `TranslationController` depends on `TranslationContract` interface
+-   Concrete implementations can be easily swapped
+-   Promotes loose coupling
+
+### 2. Architectural Patterns
+
+#### Repository Pattern
+
+-   Abstracts data access layer
+-   Encapsulates database operations
+-   Facilitates testing
+-   Provides flexibility to change database implementation
+-   Separates business logic from data access
+
+#### Service Layer Pattern
+
+-   Encapsulates business logic in service layer
+-   Controllers focus only on HTTP concerns
+-   Improves code reusability
+-   Centralizes business logic
+-   Promotes separation of concerns
+
+#### Factory Pattern
+
+-   Used in ServiceProvider for object creation
+-   Encapsulates object creation logic
+-   Manages dependencies
+-   Facilitates testing
+-   Provides centralized object creation
+
+#### Observer Pattern
+
+-   `TranslationObserver` tracks model changes
+-   Implements event-driven architecture
+-   Maintains loose coupling
+-   Manages side effects
+-   Enables reactive programming
+
+### 3. Security Patterns
+
+#### Authentication Pattern
+
+-   Implements Laravel Sanctum
+-   Token-based authentication
+-   Secure password hashing
+-   Session management
+-   API security
+
+#### Validation Pattern
+
+-   Form Request validation
+-   Custom validation rules
+-   Comprehensive error messages
+-   Input sanitization
+-   Data integrity checks
+
+#### Exception Handling Pattern
+
+-   Custom exception classes
+-   Consistent error response format
+-   Detailed logging
+-   Graceful error handling
+-   User-friendly error messages
+
+### 4. Performance Patterns
+
+#### Caching Strategy
+
+-   Redis caching implementation
+-   Cache invalidation on data changes
+-   Configurable TTL
+-   Cache tags for better management
+-   Optimized data retrieval
+
+#### Database Optimization
+
+-   Proper indexing
+-   Efficient queries
+-   Pagination for large datasets
+-   Query optimization
+-   Database performance tuning
+
+#### API Response Optimization
+
+-   JSON response compression
+-   Selective field loading
+-   Efficient data serialization
+-   Response caching
+-   Reduced payload size
+
+### 5. Testing Patterns
+
+#### Unit Testing
+
+-   Individual component testing
+-   Mock object usage
+-   Isolated testing environment
+-   Test coverage tracking
+-   Automated testing
+
+#### Feature Testing
+
+-   End-to-end functionality testing
+-   API endpoint testing
+-   Integration testing
+-   Performance testing
+-   User flow validation
+
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a Pull Request.

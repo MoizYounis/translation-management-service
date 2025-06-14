@@ -119,14 +119,8 @@ class TranslationService extends BaseService implements TranslationContract
             return $result;
         }
 
-        $responses = Redis::pipeline(function ($pipe) use ($locales) {
-            foreach ($locales as $locale) {
-                $pipe->hgetall("translations_export_{$locale}");
-            }
-        });
-
-        foreach ($responses as $index => $translations) {
-            $result[$locales[$index]] = $translations;
+        foreach ($locales as $locale) {
+            $result[$locale] = Redis::hgetall("translations_export_{$locale}");
         }
 
         return $result;

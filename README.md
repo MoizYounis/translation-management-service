@@ -172,6 +172,8 @@ php artisan serve
 
 Access the Swagger API documentation at:
 
+Note: If the Translations Export API does not work properly on Swagger, please test it on Postman it will work fine there.
+
 ```
 http://localhost:8000/api/documentation
 ```

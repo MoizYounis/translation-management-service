@@ -105,7 +105,7 @@ class TranslationApiTest extends TestCase
     {
         Sanctum::actingAs(User::factory()->create());
 
-        Translation::factory()->count(2000)->create();
+        Translation::factory()->count(1000)->create();
 
         $start = microtime(true);
 

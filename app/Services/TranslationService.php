@@ -104,20 +104,29 @@ class TranslationService extends BaseService implements TranslationContract
         $result = [];
 
         if (empty($locales)) {
-            $this->model->select('locale', 'key', 'value')
-                ->orderBy('locale')
-                ->chunk(1000, function ($translations) use (&$result) {
-                    foreach ($translations as $t) {
-                        Redis::hset("translations_export_{$t->locale}", $t->key, $t->value);
-                        Redis::sadd("translations_locales", $t->locale);
-                        $result[$t->locale][$t->key] = $t->value;
-                    }
-                });
+            Redis::pipeline(function ($pipe) use (&$result) {
+                $this->model->select('locale', 'key', 'value')
+                    ->orderBy('locale')
+                    ->chunk(1000, function ($translations) use ($pipe, &$result) {
+                        foreach ($translations as $t) {
+                            $pipe->hset("translations_export_{$t->locale}", $t->key, $t->value);
+                            $pipe->sadd("translations_locales", $t->locale);
+                            $result[$t->locale][$t->key] = $t->value;
+                        }
+                    });
+            });
 
             return $result;
         }
-        foreach ($locales as $locale) {
-            $result[$locale] = Redis::hgetall("translations_export_{$locale}");
+
+        $responses = Redis::pipeline(function ($pipe) use ($locales) {
+            foreach ($locales as $locale) {
+                $pipe->hgetall("translations_export_{$locale}");
+            }
+        });
+
+        foreach ($responses as $index => $translations) {
+            $result[$locales[$index]] = $translations;
         }
 
         return $result;

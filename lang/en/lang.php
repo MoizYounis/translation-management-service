@@ -203,6 +203,8 @@ return [
     */
 
     'attributes' => [
+        'email' => 'email',
+        'password' => 'Password',
         'translation' => 'Translation',
         'success' => 'Success',
 

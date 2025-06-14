@@ -99,7 +99,6 @@ class TranslationApiTest extends TestCase
         $this->getJson('/api/translations?key=dashboard_home')
             ->assertStatus(200)
             ->assertJsonStructure(['data']);
-        // ->assertJsonCount(1, 'data');
     }
 
     public function test_export_performance()

@@ -58,9 +58,9 @@ A robust translation management system built with Laravel that helps manage and 
 
 6. **Access Denied(Optional)**
 
-    If facing permission issue
+    If you're facing a permission issue
 
-    Hit command `pwd` and check your-project-path
+    Run the pwd command to check your project path.
 
     ```
     sudo chown -R www-data:www-data your-project-path/storage
@@ -151,11 +151,14 @@ docker-compose exec app php artisan test
 
 # For manual setup
 php artisan test
+
+# Note:
+If the data does not appear after testing the APIs, simply run the seeders again to populate the data.
 ```
 
 ## API Documentation
 
-Manual Serve:
+Manual Serve if needed:
 
 ```bash
 # For manual serve

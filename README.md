@@ -201,13 +201,6 @@ http://localhost:8000/api/documentation
 -   Ensures type safety
 -   Enables polymorphic behavior
 
-#### Interface Segregation Principle (ISP)
-
--   `TranslationContract` is divided into smaller interfaces
--   `TranslationCrudContract` and `TranslationExportContract` for separate responsibilities
--   Clients only use methods they need
--   Prevents interface pollution
-
 #### Dependency Inversion Principle (DIP)
 
 -   High-level modules (controllers) depend on abstractions (interfaces)
@@ -216,14 +209,6 @@ http://localhost:8000/api/documentation
 -   Promotes loose coupling
 
 ### 2. Architectural Patterns
-
-#### Repository Pattern
-
--   Abstracts data access layer
--   Encapsulates database operations
--   Facilitates testing
--   Provides flexibility to change database implementation
--   Separates business logic from data access
 
 #### Service Layer Pattern
 
